@@ -1,9 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:codebase_assignment/app/navigation/routes.dart';
 import 'package:codebase_assignment/data/entity/user_details_entity.dart';
-import 'package:codebase_assignment/feature/user_details/user_details.dart';
 import 'package:codebase_assignment/feature/user_list/cubit/user_cubit.dart';
 import 'package:codebase_assignment/feature/user_list/cubit/user_state.dart';
+import 'package:codebase_assignment/feature/user_list/widgets/search_widget.dart';
+import 'package:codebase_assignment/feature/user_list/widgets/user_widget.dart';
 import 'package:codebase_assignment/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +25,7 @@ class UserListViewState extends State<UserListView> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.maxScrollExtent - 100 <
+    if (_scrollController.position.maxScrollExtent <=
             _scrollController.offset &&
         !context.read<UserCubit>().hasReachedEnd) {
       context.read<UserCubit>().loadUsers();
@@ -42,21 +41,8 @@ class UserListViewState extends State<UserListView> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Search users...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (value) {
-                context.read<UserCubit>().searchQuery(
-                      query: value,
-                    );
-              },
-            ),
+          SearchWidget(
+            searchController: _searchController,
           ),
           Expanded(
             child: RefreshIndicator(
@@ -88,7 +74,7 @@ class UserListViewState extends State<UserListView> {
                   } else if (state is UserException) {
                     return Center(
                       child: Text(
-                        'Error: ${state.message}',
+                        state.message,
                       ),
                     );
                   } else {
@@ -103,23 +89,7 @@ class UserListViewState extends State<UserListView> {
                           return Center(child: CircularProgressIndicator());
                         }
                         final user = users[index];
-                        return ListTile(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              RoutePaths.userDetails,
-                              arguments: UserDetailsArguments(
-                                userDetailsEntity: user,
-                              ),
-                            );
-                          },
-                          leading: CircleAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
-                              user.avatar,
-                            ),
-                          ),
-                          title: Text('${user.firstName} ${user.lastName}'),
-                        );
+                        return UserWidget(user: user);
                       },
                     );
                   }

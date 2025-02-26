@@ -1,3 +1,5 @@
+import 'package:codebase_assignment/app/app.dart';
+import 'package:codebase_assignment/generated/l10n.dart';
 import 'package:dartz/dartz.dart';
 import 'package:codebase_assignment/data/entity/user_list_entity.dart';
 import 'package:codebase_assignment/data/source/user_remote_source.dart';
@@ -20,7 +22,11 @@ class UserRepositoryImpl extends UserRepository {
     );
 
     if (result.response.statusCode != 200) {
-      return Left(NetworkError(cause: Exception("Something Went Wrong")));
+      return Left(
+        NetworkError(
+          cause: Exception(S.of(appLevelKey.currentContext!).commonError),
+        ),
+      );
     }
 
     return Right(result.data);

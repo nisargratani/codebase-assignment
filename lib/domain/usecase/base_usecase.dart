@@ -11,9 +11,13 @@ abstract class Params {
 abstract class BaseError {
   final Exception cause;
 
-  BaseError({required this.cause});
+  BaseError({
+    required this.cause,
+  });
 }
 
 class NetworkError extends BaseError {
-  NetworkError({required super.cause});
+  NetworkError({
+    required super.cause,
+  });
 }

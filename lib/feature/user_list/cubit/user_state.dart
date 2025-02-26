@@ -17,7 +17,7 @@ class UserLoading extends UserState {
   });
   final List<UserDetailsEntity> oldUsers;
 
-  ///isFirstPage
+  ///is first page of the users list api
   final bool isFirstPage;
 }
 

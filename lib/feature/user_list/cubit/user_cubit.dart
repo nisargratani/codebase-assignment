@@ -1,5 +1,5 @@
 import 'package:codebase_assignment/data/entity/user_details_entity.dart';
-import 'package:codebase_assignment/domain/usecase/fetch_news_list.dart';
+import 'package:codebase_assignment/domain/usecase/fetch_user_list.dart';
 import 'package:codebase_assignment/feature/user_list/cubit/user_state.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,9 +14,10 @@ class UserCubit extends Cubit<UserState> {
   ///page
   int page = 1;
 
-  ///hasRechedEnd
+  ///has reched end of the pagination
   bool hasReachedEnd = false;
 
+  ///all users
   List<UserDetailsEntity> allUsers = [];
 
   ///end of the pagination
@@ -31,7 +32,7 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
-  ///end of the pagination
+  /// pull to refresh
   void startAgain() {
     emit(
       UserInitial(),
@@ -41,6 +42,7 @@ class UserCubit extends Cubit<UserState> {
     loadUsers();
   }
 
+  ///load users from api and manage states with pagination
   Future<void> loadUsers() async {
     if (state is UserLoading) {
       return;
@@ -106,6 +108,7 @@ class UserCubit extends Cubit<UserState> {
     );
   }
 
+  /// search query for the users
   void searchQuery({
     required String query,
   }) {
