@@ -28,6 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noDataFound": MessageLookupByLibrary.simpleMessage("No Data Found"),
     "pageNotFound": MessageLookupByLibrary.simpleMessage("Page not found"),
+    "searchHint": MessageLookupByLibrary.simpleMessage("Search users..."),
     "welcomeMessage": MessageLookupByLibrary.simpleMessage("User App"),
   };
 }

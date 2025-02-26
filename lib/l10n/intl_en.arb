@@ -3,5 +3,6 @@
     "commonError": "Something went wrong, Please try again later",
     "pageNotFound": "Page not found",
     "welcomeMessage": "User App",
-    "noDataFound": "No Data Found"
+    "noDataFound": "No Data Found",
+    "searchHint": "Search users..."
 }

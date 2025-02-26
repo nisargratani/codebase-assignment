@@ -78,20 +78,30 @@ class UserListViewState extends State<UserListView> {
                       ),
                     );
                   } else {
-                    return ListView.builder(
-                      controller: _scrollController,
-                      itemCount: users.length +
-                          (isLoading && !context.read<UserCubit>().hasReachedEnd
-                              ? 1
-                              : 0),
-                      itemBuilder: (context, index) {
-                        if (index >= users.length) {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                        final user = users[index];
-                        return UserWidget(user: user);
-                      },
-                    );
+                    if (users.isEmpty) {
+                      return Center(
+                        child: Text(
+                          S.of(context).noDataFound,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      );
+                    } else {
+                      return ListView.builder(
+                        controller: _scrollController,
+                        itemCount: users.length +
+                            (isLoading &&
+                                    !context.read<UserCubit>().hasReachedEnd
+                                ? 1
+                                : 0),
+                        itemBuilder: (context, index) {
+                          if (index >= users.length) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          final user = users[index];
+                          return UserWidget(user: user);
+                        },
+                      );
+                    }
                   }
                 },
               ),

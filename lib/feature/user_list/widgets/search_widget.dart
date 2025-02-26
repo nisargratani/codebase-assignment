@@ -1,4 +1,5 @@
 import 'package:codebase_assignment/feature/user_list/cubit/user_cubit.dart';
+import 'package:codebase_assignment/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,7 +18,7 @@ class SearchWidget extends StatelessWidget {
       child: TextField(
         controller: _searchController,
         decoration: InputDecoration(
-          hintText: 'Search users...',
+          hintText: S.of(context).searchHint,
           prefixIcon: Icon(Icons.search),
           suffixIcon: IconButton(
             onPressed: () {
@@ -30,7 +31,11 @@ class SearchWidget extends StatelessWidget {
               Icons.close,
             ),
           ),
-          border: OutlineInputBorder(),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(
+              24,
+            ),
+          ),
         ),
         onChanged: (value) {
           context.read<UserCubit>().searchQuery(

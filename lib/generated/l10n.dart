@@ -99,6 +99,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Search users...`
+  String get searchHint {
+    return Intl.message(
+      'Search users...',
+      name: 'searchHint',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
