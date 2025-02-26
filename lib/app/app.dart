@@ -19,7 +19,11 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BlocProvider(
-        create: (context) => UserCubit(ref.read(fetchNewsListUseCaseProvider)),
+        create: (context) => UserCubit(
+              ref.read(
+                fetchNewsListUseCaseProvider,
+              ),
+            ),
         child: MaterialApp(
           navigatorKey: appLevelKey,
           localizationsDelegates: const [
