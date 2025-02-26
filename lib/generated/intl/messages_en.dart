@@ -26,8 +26,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "commonError": MessageLookupByLibrary.simpleMessage(
       "Something went wrong, Please try again later",
     ),
+    "networkError": MessageLookupByLibrary.simpleMessage(
+      "No internet connection",
+    ),
     "noDataFound": MessageLookupByLibrary.simpleMessage("No Data Found"),
     "pageNotFound": MessageLookupByLibrary.simpleMessage("Page not found"),
+    "retry": MessageLookupByLibrary.simpleMessage("Retry"),
     "searchHint": MessageLookupByLibrary.simpleMessage("Search users..."),
     "welcomeMessage": MessageLookupByLibrary.simpleMessage("User App"),
   };

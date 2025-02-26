@@ -1,9 +1,11 @@
+import 'package:codebase_assignment/app/extensions/context_extensions.dart';
 import 'package:codebase_assignment/data/entity/user_details_entity.dart';
 import 'package:codebase_assignment/feature/user_list/cubit/user_cubit.dart';
 import 'package:codebase_assignment/feature/user_list/cubit/user_state.dart';
 import 'package:codebase_assignment/feature/user_list/widgets/search_widget.dart';
 import 'package:codebase_assignment/feature/user_list/widgets/user_widget.dart';
 import 'package:codebase_assignment/generated/l10n.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -73,8 +75,34 @@ class UserListViewState extends State<UserListView> {
                     );
                   } else if (state is UserException) {
                     return Center(
-                      child: Text(
-                        state.message,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              state.message,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge!
+                                  .copyWith(
+                                    color: Colors.red,
+                                  ),
+                            ),
+                            16.vs,
+                            CupertinoButton.filled(
+                              onPressed: () {
+                                context.read<UserCubit>().loadUsers();
+                              },
+                              child: Text(
+                                S.of(context).retry,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     );
                   } else {
@@ -95,7 +123,13 @@ class UserListViewState extends State<UserListView> {
                                 : 0),
                         itemBuilder: (context, index) {
                           if (index >= users.length) {
-                            return Center(child: CircularProgressIndicator());
+                            return Center(
+                                child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 16,
+                              ),
+                              child: CircularProgressIndicator(),
+                            ));
                           }
                           final user = users[index];
                           return UserWidget(user: user);

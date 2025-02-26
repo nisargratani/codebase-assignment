@@ -4,5 +4,7 @@
     "pageNotFound": "Page not found",
     "welcomeMessage": "User App",
     "noDataFound": "No Data Found",
-    "searchHint": "Search users..."
+    "searchHint": "Search users...",
+    "retry": "Retry",
+    "networkError": "No internet connection"
 }

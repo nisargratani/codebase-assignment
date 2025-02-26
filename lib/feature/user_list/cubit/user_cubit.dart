@@ -80,7 +80,7 @@ class UserCubit extends Cubit<UserState> {
         );
       },
       (r) {
-        hasReachedEnd = r.data.isEmpty;
+        hasReachedEnd = r.data.isEmpty || r.data.length < 10;
         if (hasReachedEnd) {
           emit(
             UserLoaded(
