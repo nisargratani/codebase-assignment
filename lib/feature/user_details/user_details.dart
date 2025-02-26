@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:codebase_assignment/data/entity/user_details_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -27,8 +28,8 @@ class UserDetailsScreenState extends State<UserDetailsScreen> {
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.network(
-                    widget.arguments.userDetailsEntity?.avatar ?? '',
+                  CachedNetworkImage(
+                    imageUrl: widget.arguments.userDetailsEntity?.avatar ?? '',
                     fit: BoxFit.cover,
                   ),
                   const DecoratedBox(

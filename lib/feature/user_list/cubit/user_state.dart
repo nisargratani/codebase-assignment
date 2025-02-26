@@ -11,17 +11,33 @@ abstract class UserState extends Equatable {
 class UserInitial extends UserState {}
 
 class UserLoading extends UserState {
-  final bool isRefresh;
-  UserLoading({required this.isRefresh});
+  UserLoading({
+    required this.oldUsers,
+    required this.isFirstPage,
+  });
+  final List<UserDetailsEntity> oldUsers;
+
+  ///isFirstPage
+  final bool isFirstPage;
 }
 
-class UserSuccess extends UserState {
+class UserLoaded extends UserState {
+  UserLoaded({
+    required this.users,
+  });
   final List<UserDetailsEntity> users;
-  final bool isLastPage;
-  UserSuccess(this.users, {required this.isLastPage});
 }
 
-class UserFailure extends UserState {
-  final String error;
-  UserFailure(this.error);
+class UserSearchQuery extends UserState {
+  UserSearchQuery({
+    required this.users,
+  });
+  final List<UserDetailsEntity> users;
+}
+
+class UserException extends UserState {
+  UserException({
+    required this.message,
+  });
+  final String message;
 }

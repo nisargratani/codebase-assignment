@@ -4,86 +4,136 @@ import 'package:codebase_assignment/feature/user_list/cubit/user_state.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// ... existing code ...
-
 class UserCubit extends Cubit<UserState> {
   final FetchUserListUseCase _fetchUserListUseCase;
 
   UserCubit(this._fetchUserListUseCase) : super(UserInitial()) {
-    fetchUsers();
+    loadUsers();
   }
 
-  int _currentPage = 1;
-  bool _isLastPage = false;
+  ///page
+  int page = 1;
 
-  Future<void> fetchUsers({bool isRefresh = false}) async {
-    if (isRefresh) {
-      _currentPage = 1;
-      _isLastPage = false;
-      emit(UserLoading(isRefresh: true));
-    } else {
-      if (_isLastPage) return;
-      emit(UserLoading(isRefresh: false));
-    }
+  ///hasRechedEnd
+  bool hasReachedEnd = false;
 
-    try {
-      final result = await _fetchUserListUseCase.execute(
-        params: FetchUserListUseCaseParams(
-          page: _currentPage,
-          perPage: 10,
+  List<UserDetailsEntity> allUsers = [];
+
+  ///end of the pagination
+  void alertCompleted() {
+    final UserState currentState = state;
+    if (currentState is UserLoading) {
+      emit(
+        UserLoaded(
+          users: currentState.oldUsers,
         ),
       );
-
-      result.fold(
-        (failure) => emit(UserFailure(failure.cause.toString())),
-        (data) {
-          final newUsers = data.data;
-          final totalPages = data.totalPages;
-
-          if (isRefresh) {
-            // For refresh, just emit new list
-            emit(UserSuccess(newUsers, isLastPage: _currentPage >= totalPages));
-          } else {
-            // For pagination, get current users and append new ones
-            final currentState = state;
-            if (currentState is UserSuccess) {
-              final List<UserDetailsEntity> updatedUsers =
-                  List.from(currentState.users)..addAll(newUsers);
-              emit(UserSuccess(
-                updatedUsers,
-                isLastPage: _currentPage >= totalPages,
-              ));
-            } else {
-              emit(UserSuccess(newUsers,
-                  isLastPage: _currentPage >= totalPages));
-            }
-          }
-
-          _isLastPage = _currentPage >= totalPages;
-          _currentPage++;
-        },
-      );
-    } catch (e) {
-      emit(UserFailure(e.toString()));
     }
   }
 
-  void searchUsers(String query) {
-    final currentState = state;
-    if (currentState is UserSuccess) {
+  ///end of the pagination
+  void startAgain() {
+    emit(
+      UserInitial(),
+    );
+    page = 1;
+    hasReachedEnd = false;
+    loadUsers();
+  }
+
+  Future<void> loadUsers() async {
+    if (state is UserLoading) {
+      return;
+    }
+
+    final UserState currentState = state;
+
+    List<UserDetailsEntity> oldContent = <UserDetailsEntity>[];
+    if (currentState is UserLoaded) {
+      oldContent = currentState.users;
+    } else if (currentState is UserSearchQuery) {
+      oldContent = currentState.users;
+    }
+
+    emit(
+      UserLoading(
+        oldUsers: oldContent,
+        isFirstPage: page == 1,
+      ),
+    );
+
+    final result = await _fetchUserListUseCase.execute(
+      params: FetchUserListUseCaseParams(
+        page: page,
+        perPage: 10,
+      ),
+    );
+
+    result.fold(
+      (l) {
+        emit(
+          UserException(
+            message: l.cause.toString(),
+          ),
+        );
+      },
+      (r) {
+        hasReachedEnd = r.data.isEmpty;
+        if (hasReachedEnd) {
+          emit(
+            UserLoaded(
+              users: (state as UserLoading).oldUsers,
+            ),
+          );
+          return;
+        }
+
+        page++;
+
+        final List<UserDetailsEntity> homeContentData = oldContent
+          ..addAll(
+            r.data,
+          );
+
+        allUsers = homeContentData;
+
+        emit(
+          UserLoaded(
+            users: homeContentData,
+          ),
+        );
+      },
+    );
+  }
+
+  void searchQuery({
+    required String query,
+  }) {
+    if (state is UserLoaded || state is UserSearchQuery) {
+      List<UserDetailsEntity> filterUsers = [];
       if (query.isEmpty) {
-        // If query is empty, show all users
-        emit(UserSuccess(currentState.users, isLastPage: _isLastPage));
-        return;
+        filterUsers = allUsers;
+      } else {
+        filterUsers = allUsers
+            .where((user) =>
+                (user.firstName.toLowerCase().contains(query.toLowerCase())) ||
+                (user.lastName.toLowerCase().contains(query.toLowerCase())))
+            .toList();
       }
 
-      // Filter users based on first name
-      final filteredUsers = currentState.users
-          .where((user) =>
-              user.firstName.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-
-      emit(UserSuccess(filteredUsers, isLastPage: _isLastPage));
+      if (state is UserLoaded) {
+        emit(
+          UserSearchQuery(
+            users: filterUsers,
+          ),
+        );
+      } else if (state is UserSearchQuery) {
+        emit(
+          UserLoaded(
+            users: filterUsers,
+          ),
+        );
+      }
     }
   }
 }

@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:codebase_assignment/app/navigation/routes.dart';
+import 'package:codebase_assignment/data/entity/user_details_entity.dart';
 import 'package:codebase_assignment/feature/user_details/user_details.dart';
 import 'package:codebase_assignment/feature/user_list/cubit/user_cubit.dart';
 import 'package:codebase_assignment/feature/user_list/cubit/user_state.dart';
@@ -24,9 +26,10 @@ class UserListViewState extends State<UserListView> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      context.read<UserCubit>().fetchUsers();
+    if (_scrollController.position.maxScrollExtent - 100 <
+            _scrollController.offset &&
+        !context.read<UserCubit>().hasReachedEnd) {
+      context.read<UserCubit>().loadUsers();
     }
   }
 
@@ -49,39 +52,57 @@ class UserListViewState extends State<UserListView> {
                 border: OutlineInputBorder(),
               ),
               onChanged: (value) {
-                context.read<UserCubit>().searchUsers(value);
+                context.read<UserCubit>().searchQuery(
+                      query: value,
+                    );
               },
             ),
           ),
           Expanded(
             child: RefreshIndicator(
               onRefresh: () async {
-                context.read<UserCubit>().fetchUsers(
-                      isRefresh: true,
-                    );
+                context.read<UserCubit>().startAgain();
               },
               child: BlocBuilder<UserCubit, UserState>(
                 builder: (context, state) {
-                  if (state is UserLoading && state.isRefresh) {
+                  List<UserDetailsEntity> users = <UserDetailsEntity>[];
+                  bool isLoading = false;
+
+                  if (state is UserLoading) {
+                    users = state.oldUsers;
+                    isLoading = true;
+                  } else if (state is UserLoaded) {
+                    users = state.users;
+                  } else if (state is UserSearchQuery) {
+                    users = state.users;
+                  }
+                  if (state is UserInitial) {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is UserFailure) {
+                  }
+                  if (state is UserLoading && state.isFirstPage) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is UserException) {
                     return Center(
                       child: Text(
-                        'Error: ${state.error}',
+                        'Error: ${state.message}',
                       ),
                     );
-                  } else if (state is UserSuccess) {
+                  } else {
                     return ListView.builder(
                       controller: _scrollController,
-                      itemCount:
-                          state.users.length + (state.isLastPage ? 0 : 1),
+                      itemCount: users.length +
+                          (isLoading && !context.read<UserCubit>().hasReachedEnd
+                              ? 1
+                              : 0),
                       itemBuilder: (context, index) {
-                        if (index >= state.users.length) {
+                        if (index >= users.length) {
                           return Center(child: CircularProgressIndicator());
                         }
-                        final user = state.users[index];
+                        final user = users[index];
                         return ListTile(
                           onTap: () {
                             Navigator.pushNamed(
@@ -93,15 +114,15 @@ class UserListViewState extends State<UserListView> {
                             );
                           },
                           leading: CircleAvatar(
-                              backgroundImage: NetworkImage(user.avatar)),
+                            backgroundImage: CachedNetworkImageProvider(
+                              user.avatar,
+                            ),
+                          ),
                           title: Text('${user.firstName} ${user.lastName}'),
                         );
                       },
                     );
                   }
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
                 },
               ),
             ),
