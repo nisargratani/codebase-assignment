@@ -11,9 +11,11 @@ UserListEntity _$UserListEntityFromJson(Map<String, dynamic> json) =>
       (json['data'] as List<dynamic>)
           .map((e) => UserDetailsEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
+      (json['total_pages'] as num).toInt(),
     );
 
 Map<String, dynamic> _$UserListEntityToJson(UserListEntity instance) =>
     <String, dynamic>{
       'data': instance.data,
+      'total_pages': instance.totalPages,
     };

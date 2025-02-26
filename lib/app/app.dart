@@ -1,4 +1,7 @@
+import 'package:codebase_assignment/di/usecase/news_module.dart';
+import 'package:codebase_assignment/feature/news_list/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:codebase_assignment/app/app_viewmodel.dart';
@@ -15,23 +18,26 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return BaseWidget<AppViewModel>(
-      providerBase: appViewModelProvider,
-      builder: (context, model, child) {
-        return MaterialApp(
-          navigatorKey: appLevelKey,
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          onGenerateTitle: (context) => S.of(context).appName,
-          debugShowCheckedModeBanner: false,
-          initialRoute: RoutePaths.splash,
-          onGenerateRoute: NewsRouter.onGenerateRoute,
-        );
-      },
+    return BlocProvider(
+      create: (context) => UserCubit(ref.read(fetchNewsListUseCaseProvider)),
+      child: BaseWidget<AppViewModel>(
+        providerBase: appViewModelProvider,
+        builder: (context, model, child) {
+          return MaterialApp(
+            navigatorKey: appLevelKey,
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            onGenerateTitle: (context) => S.of(context).appName,
+            debugShowCheckedModeBanner: false,
+            initialRoute: RoutePaths.splash,
+            onGenerateRoute: NewsRouter.onGenerateRoute,
+          );
+        },
+      ),
     );
   }
 }

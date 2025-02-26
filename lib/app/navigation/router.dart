@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:codebase_assignment/app/navigation/routes.dart';
-import 'package:codebase_assignment/feature/news_details/news_details.dart';
-import 'package:codebase_assignment/feature/news_list/news_list.dart';
+import 'package:codebase_assignment/feature/user_details/user_details.dart';
+import 'package:codebase_assignment/feature/news_list/user_list.dart';
 import 'package:codebase_assignment/feature/splash/splash_page.dart';
 import 'package:codebase_assignment/generated/l10n.dart';
 
@@ -15,13 +15,18 @@ class NewsRouter {
 
       case RoutePaths.userList:
         return CupertinoPageRoute(
-            builder: (context) => const NewsListPage(),
+            builder: (context) => const UserListView(),
             settings: const RouteSettings(name: RoutePaths.userList));
 
       case RoutePaths.userDetails:
         return CupertinoPageRoute(
-            builder: (context) => const NewsDetailsPage(),
-            settings: const RouteSettings(name: RoutePaths.userDetails));
+          builder: (context) => UserDetailsScreen(
+            arguments: settings.arguments as UserDetailsArguments,
+          ),
+          settings: const RouteSettings(
+            name: RoutePaths.userDetails,
+          ),
+        );
 
       default:
         return CupertinoPageRoute(

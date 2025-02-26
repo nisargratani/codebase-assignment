@@ -10,8 +10,14 @@ class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl(this._remoteDs);
 
   @override
-  Future<Either<BaseError, UserListEntity>> fetchUserList() async {
-    final result = await _remoteDs.fetchUserList();
+  Future<Either<BaseError, UserListEntity>> fetchUserList({
+    required int page,
+    required int perPage,
+  }) async {
+    final result = await _remoteDs.fetchUserList(
+      page: page,
+      perPage: perPage,
+    );
 
     if (result.response.statusCode != 200) {
       return Left(NetworkError(cause: Exception("Something Went Wrong")));

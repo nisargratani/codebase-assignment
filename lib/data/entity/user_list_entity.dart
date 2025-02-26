@@ -7,9 +7,12 @@ part "user_list_entity.g.dart";
 class UserListEntity {
   @JsonKey(name: "data")
   final List<UserDetailsEntity> data;
+  @JsonKey(name: "total_pages")
+  final int totalPages;
 
   UserListEntity(
     this.data,
+    this.totalPages,
   );
 
   factory UserListEntity.fromJson(Map<String, dynamic> json) =>

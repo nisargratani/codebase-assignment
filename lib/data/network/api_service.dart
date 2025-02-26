@@ -10,6 +10,9 @@ abstract class ApiService {
     return _ApiService(dio, baseUrl: baseUrl);
   }
 
-  @GET("https://reqres.in/api/users?per_page=10&page=1")
-  Future<HttpResponse<UserListEntity>> fetchNewsList();
+  @GET("https://reqres.in/api/users")
+  Future<HttpResponse<UserListEntity>> fetchNewsList({
+    @Query('page') required int page,
+    @Query('per_page') required int perPage,
+  });
 }

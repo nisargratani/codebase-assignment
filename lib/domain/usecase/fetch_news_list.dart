@@ -12,11 +12,22 @@ class FetchUserListUseCase
   @override
   Future<Either<BaseError, UserListEntity>> execute(
       {required FetchUserListUseCaseParams params}) {
-    return _repository.fetchUserList();
+    return _repository.fetchUserList(
+      page: params.page,
+      perPage: params.perPage,
+    );
   }
 }
 
 class FetchUserListUseCaseParams extends Params {
+  final int page;
+  final int perPage;
+
+  FetchUserListUseCaseParams({
+    required this.page,
+    required this.perPage,
+  });
+
   @override
   Either<BaseError, bool> verify() {
     return const Right(true);

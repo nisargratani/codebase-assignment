@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:codebase_assignment/data/data_constant.dart';
 import 'package:codebase_assignment/data/network/api_service.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:riverpod/riverpod.dart';
 
 final baseOptions =
     Provider<BaseOptions>((ref) => BaseOptions(baseUrl: DataConstant.BASE_URL));

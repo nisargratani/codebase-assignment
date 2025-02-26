@@ -18,16 +18,22 @@ class _ApiService implements ApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<UserListEntity>> fetchNewsList() async {
+  Future<HttpResponse<UserListEntity>> fetchNewsList({
+    required int page,
+    required int perPage,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'per_page': perPage,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<UserListEntity>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'https://reqres.in/api/users?per_page=10&page=1',
+            'https://reqres.in/api/users',
             queryParameters: queryParameters,
             data: _data,
           )

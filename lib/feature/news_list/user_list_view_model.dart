@@ -40,7 +40,7 @@ class NewsListViewModel extends BaseViewModel {
       currentPage++;
       _fetchUsers(
         FetchUserListUseCaseParams(
-          page: currentPage,
+          page: 1,
           perPage: 10,
         ),
       );

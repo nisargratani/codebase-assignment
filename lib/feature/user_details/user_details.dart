@@ -1,0 +1,90 @@
+import 'package:codebase_assignment/base/base_widget.dart';
+import 'package:codebase_assignment/data/entity/user_details_entity.dart';
+import 'package:codebase_assignment/di/app/feature_module.dart';
+import 'package:codebase_assignment/feature/user_details/user_details_view_model.dart';
+import 'package:flutter/material.dart';
+
+class UserDetailsScreen extends StatefulWidget {
+  const UserDetailsScreen({
+    super.key,
+    required this.arguments,
+  });
+
+  final UserDetailsArguments arguments;
+
+  @override
+  UserDetailsScreenState createState() => UserDetailsScreenState();
+}
+
+class UserDetailsScreenState extends State<UserDetailsScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 300,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(widget.arguments.userDetailsEntity?.firstName ?? ''),
+              background: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.network(
+                    widget.arguments.userDetailsEntity?.avatar ?? '',
+                    fit: BoxFit.cover,
+                  ),
+                  const DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Color(0xFF000000),
+                          Color(0x00000000),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: BaseWidget<UserDetailsViewModel>(
+              providerBase: userDetailsViewModelProvider,
+              onModelReady: (model) {},
+              builder: (context, model, child) {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${widget.arguments.userDetailsEntity?.firstName} ${widget.arguments.userDetailsEntity?.lastName}',
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        widget.arguments.userDetailsEntity?.email ?? '',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class UserDetailsArguments {
+  final UserDetailsEntity? userDetailsEntity;
+
+  UserDetailsArguments({
+    this.userDetailsEntity,
+  });
+}
