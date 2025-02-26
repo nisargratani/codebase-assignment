@@ -27,7 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Something went wrong, Please try again later",
     ),
     "networkError": MessageLookupByLibrary.simpleMessage(
-      "No internet connection",
+      "Please check your internet connection and try again",
     ),
     "noDataFound": MessageLookupByLibrary.simpleMessage("No Data Found"),
     "pageNotFound": MessageLookupByLibrary.simpleMessage("Page not found"),

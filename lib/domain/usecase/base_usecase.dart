@@ -10,14 +10,17 @@ abstract class Params {
 
 abstract class BaseError {
   final Exception cause;
+  final String message;
 
   BaseError({
     required this.cause,
+    required this.message,
   });
 }
 
 class NetworkError extends BaseError {
   NetworkError({
     required super.cause,
+    required super.message,
   });
 }

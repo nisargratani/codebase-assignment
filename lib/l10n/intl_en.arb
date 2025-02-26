@@ -6,5 +6,5 @@
     "noDataFound": "No Data Found",
     "searchHint": "Search users...",
     "retry": "Retry",
-    "networkError": "No internet connection"
+    "networkError": "Please check your internet connection and try again"
 }

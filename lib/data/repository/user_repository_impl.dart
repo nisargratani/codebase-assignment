@@ -38,6 +38,7 @@ class UserRepositoryImpl extends UserRepository {
         return Left(
           NetworkError(
             cause: Exception(S.of(appLevelKey.currentContext!).networkError),
+            message: S.of(appLevelKey.currentContext!).networkError,
           ),
         );
       }
@@ -52,6 +53,7 @@ class UserRepositoryImpl extends UserRepository {
           return Left(
             NetworkError(
               cause: Exception(S.of(appLevelKey.currentContext!).commonError),
+              message: S.of(appLevelKey.currentContext!).commonError,
             ),
           );
         } else {
@@ -64,6 +66,7 @@ class UserRepositoryImpl extends UserRepository {
         return Left(
           NetworkError(
             cause: Exception(S.of(appLevelKey.currentContext!).commonError),
+            message: S.of(appLevelKey.currentContext!).commonError,
           ),
         );
       }

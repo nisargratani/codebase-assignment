@@ -115,10 +115,10 @@ class S {
     return Intl.message('Retry', name: 'retry', desc: '', args: []);
   }
 
-  /// `No internet connection`
+  /// `Please check your internet connection and try again`
   String get networkError {
     return Intl.message(
-      'No internet connection',
+      'Please check your internet connection and try again',
       name: 'networkError',
       desc: '',
       args: [],

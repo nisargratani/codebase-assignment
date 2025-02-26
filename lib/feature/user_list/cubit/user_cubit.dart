@@ -75,7 +75,7 @@ class UserCubit extends Cubit<UserState> {
       (l) {
         emit(
           UserException(
-            message: l.cause.toString(),
+            message: l.message,
           ),
         );
       },
