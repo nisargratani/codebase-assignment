@@ -1,6 +1,6 @@
 import 'package:codebase_assignment/data/entity/user_details_entity.dart';
 import 'package:codebase_assignment/domain/usecase/fetch_news_list.dart';
-import 'package:codebase_assignment/feature/news_list/cubit/user_state.dart';
+import 'package:codebase_assignment/feature/user_list/cubit/user_state.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 

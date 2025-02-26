@@ -1,7 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:codebase_assignment/app/navigation/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:codebase_assignment/base/base_widget.dart';
-import 'package:codebase_assignment/di/app/feature_module.dart';
-import 'package:codebase_assignment/feature/splash/splash_view_model.dart';
 import 'package:codebase_assignment/generated/l10n.dart';
 
 class SplashPage extends StatefulWidget {
@@ -13,18 +13,30 @@ class SplashPage extends StatefulWidget {
 
 class SplashPageState extends State<SplashPage> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      startSplashProgress(context);
+    });
+  }
+
+  void startSplashProgress(
+    BuildContext context,
+  ) {
+    Future.delayed(Duration(seconds: 1)).then(
+      (value) {
+        Navigator.pushReplacementNamed(context, RoutePaths.userList);
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BaseWidget<SplashViewModel>(
-        providerBase: splashViewModelProvider,
-        builder: (context, model, child) {
-          return Center(
-            child: Text(
-              S.of(context).welcomeMessage,
-            ),
-          );
-        },
+        body: Center(
+      child: Text(
+        S.of(context).welcomeMessage,
       ),
-    );
+    ));
   }
 }

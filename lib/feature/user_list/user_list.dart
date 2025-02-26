@@ -1,5 +1,7 @@
-import 'package:codebase_assignment/feature/news_list/cubit/user_cubit.dart';
-import 'package:codebase_assignment/feature/news_list/cubit/user_state.dart';
+import 'package:codebase_assignment/app/navigation/routes.dart';
+import 'package:codebase_assignment/feature/user_details/user_details.dart';
+import 'package:codebase_assignment/feature/user_list/cubit/user_cubit.dart';
+import 'package:codebase_assignment/feature/user_list/cubit/user_state.dart';
 import 'package:codebase_assignment/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -81,10 +83,18 @@ class UserListViewState extends State<UserListView> {
                         }
                         final user = state.users[index];
                         return ListTile(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              RoutePaths.userDetails,
+                              arguments: UserDetailsArguments(
+                                userDetailsEntity: user,
+                              ),
+                            );
+                          },
                           leading: CircleAvatar(
                               backgroundImage: NetworkImage(user.avatar)),
                           title: Text('${user.firstName} ${user.lastName}'),
-                          subtitle: Text(user.email),
                         );
                       },
                     );

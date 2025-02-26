@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:codebase_assignment/app/navigation/routes.dart';
 import 'package:codebase_assignment/feature/user_details/user_details.dart';
-import 'package:codebase_assignment/feature/news_list/user_list.dart';
+import 'package:codebase_assignment/feature/user_list/user_list.dart';
 import 'package:codebase_assignment/feature/splash/splash_page.dart';
 import 'package:codebase_assignment/generated/l10n.dart';
 
