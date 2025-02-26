@@ -1,5 +1,9 @@
 ## Codebase Assignment
 
+## Screen recording with features explanation
+
+https://drive.google.com/file/d/1Oq2-eThTPtMpx_Z2EI53UGdk2n4rnFi7/view?usp=sharing
+
 #### Requirements
 
 Here are some things you need to prepare for code to setup:
@@ -79,3 +83,4 @@ Each layer has a `di` directory to manage Dependency Injection for that layer.
 - Bloc Framework - [Bloc](https://pub.dev/packages/flutter_bloc)
 - [Navigation](https://docs.flutter.dev/development/ui/navigation)
 - Localisation - [Flutter Intl](https://www.jetbrains.com/help/idea/managing-plugins.html)
+
