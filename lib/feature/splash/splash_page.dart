@@ -1,42 +1,43 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:codebase_assignment/app/navigation/routes.dart';
+import 'package:codebase_assignment/feature/splash/cubit/splash_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:codebase_assignment/generated/l10n.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
-
-  @override
-  SplashPageState createState() => SplashPageState();
-}
-
-class SplashPageState extends State<SplashPage> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      startSplashProgress(context);
-    });
-  }
-
-  void startSplashProgress(
-    BuildContext context,
-  ) {
-    Future.delayed(Duration(seconds: 1)).then(
-      (value) {
-        Navigator.pushReplacementNamed(context, RoutePaths.userList);
-      },
-    );
-  }
+class SplashPage extends StatelessWidget {
+  const SplashPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-      child: Text(
-        S.of(context).welcomeMessage,
+    return BlocProvider(
+      create: (context) => SplashCubit(),
+      child: BlocListener<SplashCubit, SplashState>(
+        listener: (context, state) {
+          if (state is SplashNavigating) {
+            Navigator.pushReplacementNamed(
+              context,
+              RoutePaths.userList,
+            );
+          }
+        },
+        child: Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  S.of(context).welcomeMessage,
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-    ));
+    );
   }
 }

@@ -28,8 +28,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noDataFound": MessageLookupByLibrary.simpleMessage("No Data Found"),
     "pageNotFound": MessageLookupByLibrary.simpleMessage("Page not found"),
-    "welcomeMessage": MessageLookupByLibrary.simpleMessage(
-      "Welcome To User App",
-    ),
+    "welcomeMessage": MessageLookupByLibrary.simpleMessage("User App"),
   };
 }

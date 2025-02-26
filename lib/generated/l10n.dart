@@ -85,14 +85,9 @@ class S {
     );
   }
 
-  /// `Welcome To User App`
+  /// `User App`
   String get welcomeMessage {
-    return Intl.message(
-      'Welcome To User App',
-      name: 'welcomeMessage',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('User App', name: 'welcomeMessage', desc: '', args: []);
   }
 
   /// `No Data Found`

@@ -2,6 +2,6 @@
     "appName": "Codebase Assignment",
     "commonError": "Something went wrong, Please try again later",
     "pageNotFound": "Page not found",
-    "welcomeMessage": "Welcome To User App",
+    "welcomeMessage": "User App",
     "noDataFound": "No Data Found"
 }
