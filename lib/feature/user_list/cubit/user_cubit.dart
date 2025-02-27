@@ -80,7 +80,7 @@ class UserCubit extends Cubit<UserState> {
         );
       },
       (r) {
-        hasReachedEnd = r.data.isEmpty || r.data.length < 10;
+        hasReachedEnd = r.data.isEmpty;
         if (hasReachedEnd) {
           emit(
             UserLoaded(
@@ -89,6 +89,8 @@ class UserCubit extends Cubit<UserState> {
           );
           return;
         }
+
+        hasReachedEnd = r.data.length < 10;
 
         page++;
 

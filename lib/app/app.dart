@@ -21,7 +21,7 @@ class App extends ConsumerWidget {
     return BlocProvider(
         create: (context) => UserCubit(
               ref.read(
-                fetchNewsListUseCaseProvider,
+                fetchUserListUseCaseProvider,
               ),
             ),
         child: MaterialApp(
@@ -35,7 +35,7 @@ class App extends ConsumerWidget {
           onGenerateTitle: (context) => S.of(context).appName,
           debugShowCheckedModeBanner: false,
           initialRoute: RoutePaths.splash,
-          onGenerateRoute: NewsRouter.onGenerateRoute,
+          onGenerateRoute: UserRouter.onGenerateRoute,
         ));
   }
 }

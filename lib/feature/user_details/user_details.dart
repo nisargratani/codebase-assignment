@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:codebase_assignment/app/extensions/context_extensions.dart';
 import 'package:codebase_assignment/data/entity/user_details_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -59,7 +58,9 @@ class UserDetailsScreenState extends State<UserDetailsScreen> {
                       '${widget.arguments.userDetailsEntity?.firstName} ${widget.arguments.userDetailsEntity?.lastName}',
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
-                    8.vs,
+                    SizedBox(
+                      height: 8,
+                    ),
                     Text(
                       widget.arguments.userDetailsEntity?.email ?? '',
                       style: Theme.of(context).textTheme.bodyLarge,

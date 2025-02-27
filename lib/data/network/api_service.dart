@@ -11,7 +11,7 @@ abstract class ApiService {
   }
 
   @GET('/users')
-  Future<HttpResponse<UserListEntity>> fetchNewsList({
+  Future<HttpResponse<UserListEntity>> fetchUserList({
     @Query('page') required int page,
     @Query('per_page') required int perPage,
   });

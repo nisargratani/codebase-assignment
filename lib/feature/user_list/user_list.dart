@@ -1,4 +1,3 @@
-import 'package:codebase_assignment/app/extensions/context_extensions.dart';
 import 'package:codebase_assignment/data/entity/user_details_entity.dart';
 import 'package:codebase_assignment/feature/user_list/cubit/user_cubit.dart';
 import 'package:codebase_assignment/feature/user_list/cubit/user_state.dart';
@@ -92,7 +91,9 @@ class UserListViewState extends State<UserListView> {
                                     color: Colors.red,
                                   ),
                             ),
-                            16.vs,
+                            SizedBox(
+                              height: 16,
+                            ),
                             CupertinoButton.filled(
                               onPressed: () {
                                 context.read<UserCubit>().loadUsers();

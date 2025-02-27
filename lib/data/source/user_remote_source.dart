@@ -19,7 +19,7 @@ class UserRemoteDataSourceImpl extends UserRemoteSource {
     required int page,
     required int perPage,
   }) {
-    return _service.fetchNewsList(
+    return _service.fetchUserList(
       page: page,
       perPage: perPage,
     );

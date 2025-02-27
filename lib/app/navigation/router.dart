@@ -5,7 +5,7 @@ import 'package:codebase_assignment/feature/user_list/user_list.dart';
 import 'package:codebase_assignment/feature/splash/splash_page.dart';
 import 'package:codebase_assignment/generated/l10n.dart';
 
-class NewsRouter {
+class UserRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RoutePaths.splash:

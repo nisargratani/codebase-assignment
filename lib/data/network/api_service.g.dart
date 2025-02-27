@@ -22,7 +22,7 @@ class _ApiService implements ApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<UserListEntity>> fetchNewsList({
+  Future<HttpResponse<UserListEntity>> fetchUserList({
     required int page,
     required int perPage,
   }) async {
